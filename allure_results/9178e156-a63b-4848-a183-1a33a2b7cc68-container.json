@@ -1,0 +1,1 @@
+{"uuid": "f03c5493-a3e1-43aa-aabc-ce1719f2f01a", "children": ["0440f862-0912-4ac9-b8ae-9e031cfb0842"], "befores": [{"name": "for_auth_delete_cour", "status": "passed", "start": 1754314538076, "stop": 1754314538347}], "afters": [{"name": "for_auth_delete_cour::0", "status": "passed", "start": 1754314538548, "stop": 1754314539056}], "start": 1754314538076, "stop": 1754314539056}
