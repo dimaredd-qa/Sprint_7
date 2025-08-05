@@ -3,7 +3,7 @@ import requests
 import generator
 from data import Endpoint
 
-
+@pytest.fixture
 def data_for_courier():
     return {
         "login": generator.login_generator(),
@@ -19,8 +19,8 @@ def data_for_courier():
     }
 
 @pytest.fixture
-def for_reg_delete_cour():
-    data = data_for_courier()
+def for_reg_delete_cour(data_for_courier):
+    data = data_for_courier
     reg_new_cour = {"login": data["login"], "password": data["password"], "firstName": data["firstName"]}
     yield reg_new_cour
     auth_data = {"login": data["login"], "password": data["password"]}
@@ -32,8 +32,8 @@ def for_reg_delete_cour():
         pass
 
 @pytest.fixture
-def for_auth_delete_cour():
-    data = data_for_courier()
+def for_auth_delete_cour(data_for_courier):
+    data = data_for_courier
     requests.post(f'{Endpoint.create_courier_url}', json=data)
     auth_data = {"login": data["login"], "password": data["password"]}
     login_no_passwd = {"login": data["login"], "password": ""}
@@ -47,8 +47,8 @@ def for_auth_delete_cour():
         pass
 
 @pytest.fixture
-def create_delete_order():
-    data = data_for_courier()
+def create_delete_order(data_for_courier):
+    data = data_for_courier
     response = requests.post(Endpoint.create_order_url, json=data)
     track = response.json()["track"]
 
@@ -56,8 +56,8 @@ def create_delete_order():
     requests.put(Endpoint.delete_order_url, params={"track": track})
 
 @pytest.fixture
-def get_courier_and_order_ids(for_auth_delete_cour):
-    data = data_for_courier()
+def get_courier_and_order_ids(for_auth_delete_cour, data_for_courier):
+    data = data_for_courier
     courier_resp = requests.post(Endpoint.login_courier_url, json=for_auth_delete_cour[1])
     courier_id = courier_resp.json()["id"]
     order_resp = requests.post(Endpoint.create_order_url, json=data)
